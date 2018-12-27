@@ -1,11 +1,16 @@
 package org.zerhusen.security.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,12 +21,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.zerhusen.model.aml.audit.JwtAudit;
+import org.zerhusen.model.aml.audit.JwtHeader;
 import org.zerhusen.security.JwtAuthenticationRequest;
 import org.zerhusen.security.JwtTokenUtil;
 import org.zerhusen.security.JwtUser;
+import org.zerhusen.security.repository.audit.JwtAuditRepository;
+import org.zerhusen.security.repository.audit.JwtHeadersRepository;
 import org.zerhusen.security.service.JwtAuthenticationResponse;
 
 @RestController
@@ -35,20 +45,42 @@ public class AuthenticationRestController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    
+    @Autowired
+    private JwtAuditRepository jwtAuditRepository;
+    
+    @Autowired
+    private JwtHeadersRepository jwtHeadersRepository;
 
     @Autowired
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, @RequestHeader HttpHeaders headers) throws AuthenticationException {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         // Reload password post-security so we can generate the token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-
+        
+        JwtAudit jwtAudit = new JwtAudit();
+        jwtAudit.setJwtToken(token);
+        JwtAudit jwtAuditSaved = jwtAuditRepository.save(jwtAudit);
+        
+        Set<String> headersKeys = headers.keySet();
+        for(String headerKey : headersKeys) {
+        	if(headers.containsKey(headerKey)) {
+        		JwtHeader jwtHeader = new JwtHeader();
+        		String headerValue = headers.get(headerKey).toString();
+        		jwtHeader.setHeaderName(headerKey);
+        		jwtHeader.setHeaderValue(headerValue);	
+        		jwtHeader.setJwtAuditId(jwtAuditSaved.getJwtAuditId());
+        		jwtHeadersRepository.save(jwtHeader);
+        	}
+        }
+        
         // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
