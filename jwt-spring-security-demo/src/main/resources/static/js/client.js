@@ -179,9 +179,9 @@ $(function () {
     });
     
     
-    $("#alertsServiceBtn").click(function () {
+    $("#ebankingAlertsServiceBtn").click(function () {
         $.ajax({
-            url: "/protectedalerts",
+            url: "/alerts/protectedebankingalerts",
             type: "GET",
             contentType: "application/json; charset=utf-8",
             headers: createAuthorizationTokenHeader(),
@@ -193,6 +193,54 @@ $(function () {
             }
         });
     });
+    
+    
+    $("#cardAlertsServiceBtn").click(function () {
+        $.ajax({
+            url: "/alerts/protectedcardalerts",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            headers: createAuthorizationTokenHeader(),
+            success: function (data, textStatus, jqXHR) {
+                showResponse(jqXHR.status, data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showResponse(jqXHR.status, errorThrown);
+            }
+        });
+    });
+    
+    $("#depositsAlertsServiceBtn").click(function () {
+        $.ajax({
+            url: "/alerts/protecteddepositalerts",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            headers: createAuthorizationTokenHeader(),
+            success: function (data, textStatus, jqXHR) {
+                showResponse(jqXHR.status, data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showResponse(jqXHR.status, errorThrown);
+            }
+        });
+    });
+    
+    $("#ordersAlertsServiceBtn").click(function () {
+        $.ajax({
+            url: "/alerts/protectedorderalerts",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            headers: createAuthorizationTokenHeader(),
+            success: function (data, textStatus, jqXHR) {
+                showResponse(jqXHR.status, data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                showResponse(jqXHR.status, errorThrown);
+            }
+        });
+    });
+    
+    
     
     $("#rulesServiceBtn").click(function () {
         $.ajax({

@@ -1,4 +1,4 @@
-package org.zerhusen.model.aml;
+package org.zerhusen.model.aml.transactions;
 
 import java.io.Serializable;
 import javax.persistence.*;

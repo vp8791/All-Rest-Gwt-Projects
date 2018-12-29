@@ -1,24 +1,75 @@
 package org.zerhusen.security.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.zerhusen.model.aml.alerts.DepositEntityScore;
+import org.zerhusen.model.aml.alerts.EbankV5Alert;
+import org.zerhusen.model.aml.alerts.OrdgcsOrder;
+import org.zerhusen.model.aml.alerts.TxnAlert;
+import org.zerhusen.security.repository.alerts.CardsAlertRepository;
+import org.zerhusen.security.repository.alerts.DepositsAlertRepository;
+import org.zerhusen.security.repository.alerts.EbankV5AlertRepository;
+import org.zerhusen.security.repository.alerts.OrdersAlertRepository;
 
 @RestController
-@RequestMapping("protectedalerts")
+@RequestMapping("alerts")
 public class GwtAlertsController {
+	
+	
+	@Autowired
+	private EbankV5AlertRepository ebankV5AlertRepository;
+	
+	@Autowired
+	private CardsAlertRepository cardAlertRepository;
+	
+	@Autowired
+	private OrdersAlertRepository orderAlertRepository;
+	
+	@Autowired
+	private OrdersAlertRepository ordersAlertRepository;
 
+	@Autowired
+	private DepositsAlertRepository depositsAlertRepository;
+	
     /**
      * This is an example of some different kinds of granular restriction for endpoints. You can use the built-in SPEL expressions
      * in @PreAuthorize such as 'hasRole()' to determine if a user has access. Remember that the hasRole expression assumes a
      * 'ROLE_' prefix on all role names. So 'ADMIN' here is actually stored as 'ROLE_ADMIN' in database!
      **/
-    @RequestMapping(method = RequestMethod.GET)
+	
+	@GetMapping("/protectedebankingalerts")
     @PreAuthorize("hasRole('ROLE_ALERTS')")
-    public ResponseEntity<?> getProtectedGreeting() {
-    	 return ResponseEntity.ok("Greetings from Alerts!");
+    public ResponseEntity<?> getEbankingAlerts() {
+		List<EbankV5Alert> allEbankingAlerts = ebankV5AlertRepository.findAll();	
+    	 return ResponseEntity.ok(allEbankingAlerts);
+    }
+	
+	@GetMapping("/protectedcardalerts")
+    @PreAuthorize("hasRole('ROLE_ALERTS')")
+    public ResponseEntity<?> getCardAlerts() {
+		List<TxnAlert> allCardAlerts = cardAlertRepository.findAll();		
+    	 return ResponseEntity.ok(allCardAlerts);
+    }
+	
+	@GetMapping("/protecteddepositalerts")
+    @PreAuthorize("hasRole('ROLE_ALERTS')")
+    public ResponseEntity<?> getDepositAlerts() {
+		List<DepositEntityScore> findAll = depositsAlertRepository.findAll();
+    	 return ResponseEntity.ok(findAll);
     }
 
+	@GetMapping("/protectedorderalerts")
+    @PreAuthorize("hasRole('ROLE_ALERTS')")
+    public ResponseEntity<?> getOrderAlerts() {
+		List<OrdgcsOrder> orderAlerts = ordersAlertRepository.findAll();
+    	 return ResponseEntity.ok(orderAlerts);
+    }
+
+	
 }

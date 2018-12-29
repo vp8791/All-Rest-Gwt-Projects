@@ -1,25 +1,25 @@
-package org.zerhusen.model.aml;
+package org.zerhusen.model.aml.alerts;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.Timestamp;
 
 
 /**
- * The persistent class for the EBANK_V5_ALERTS database table.
+ * The persistent class for the TXN_ALERTS database table.
  * 
  */
 @Entity
-@Table(name="EBANK_V5_ALERTS")
-@NamedQuery(name="EbankV5Alert.findAll", query="SELECT e FROM EbankV5Alert e")
-public class EbankV5Alert implements Serializable {
+@Table(name="TXN_ALERTS")
+@NamedQuery(name="TxnAlert.findAll", query="SELECT t FROM TxnAlert t")
+public class TxnAlert implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="ALERT_ID")
-	private String alertId;
+	@EmbeddedId
+	private TxnAlertPK id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="ALERT_DATE")
@@ -75,15 +75,15 @@ public class EbankV5Alert implements Serializable {
 	@Column(name="USER_SCORE")
 	private BigDecimal userScore;
 
-	public EbankV5Alert() {
+	public TxnAlert() {
 	}
 
-	public String getAlertId() {
-		return this.alertId;
+	public TxnAlertPK getId() {
+		return this.id;
 	}
 
-	public void setAlertId(String alertId) {
-		this.alertId = alertId;
+	public void setId(TxnAlertPK id) {
+		this.id = id;
 	}
 
 	public Date getAlertDate() {
