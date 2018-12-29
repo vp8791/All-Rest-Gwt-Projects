@@ -10,7 +10,11 @@ import org.zerhusen.pojos.Cpp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value="Aml Cpp Settings", description="Aml Cpp Settings")
 @RequestMapping("protectedcpp")
 public class GwtCppController {
 
@@ -20,6 +24,7 @@ public class GwtCppController {
      * 'ROLE_' prefix on all role names. So 'ADMIN' here is actually stored as 'ROLE_ADMIN' in database!
      **/
     @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "Aml Cpp settings", response = String.class )
     @PreAuthorize("hasRole('ROLE_CPP')")
     public ResponseEntity<?> getProtectedGreeting() {
     	Cpp cpp = new Cpp();

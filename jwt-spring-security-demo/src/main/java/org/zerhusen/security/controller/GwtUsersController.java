@@ -18,7 +18,11 @@ import org.zerhusen.security.repository.hib.HibUsersRepository;
 import org.zerhusen.security.repository.hib.dto.HibAuthorityDto;
 import org.zerhusen.security.repository.hib.dto.HibUsersDto;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value="Aml Users and their Authorities", description="User and Authorities of all Users")
 @RequestMapping("protectedusers")
 public class GwtUsersController {
 
@@ -39,6 +43,7 @@ public class GwtUsersController {
 	 * actually stored as 'ROLE_ADMIN' in database!
 	 **/
 	@RequestMapping(method = RequestMethod.GET)
+	  @ApiOperation(value = "Aml User Rules List(USERS/AUTHORITY/USER_AUTHORITY tables)", response = String.class )
 	@PreAuthorize("hasRole('ROLE_USERS')")
 	public ResponseEntity<?> getProtectedGreeting() {
 		List<HibUser> allHibUsers = hibuserRepository.findAll();

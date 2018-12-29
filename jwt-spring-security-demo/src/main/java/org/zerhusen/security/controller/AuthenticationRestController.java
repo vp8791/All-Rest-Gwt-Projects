@@ -34,7 +34,11 @@ import org.zerhusen.security.repository.audit.JwtAuditRepository;
 import org.zerhusen.security.repository.audit.JwtHeadersRepository;
 import org.zerhusen.security.service.JwtAuthenticationResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value="Aml Authentication", description="Authenticates user and issues a Jwt token after verifying user credentials")
 public class AuthenticationRestController {
 
     @Value("${jwt.header}")
@@ -55,7 +59,8 @@ public class AuthenticationRestController {
     @Autowired
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
-
+    
+	@ApiOperation(value = "Creates Jwt Token and returns Jwt Token", response = JwtAuthenticationResponse.class )
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, @RequestHeader HttpHeaders headers) throws AuthenticationException {
 
@@ -85,6 +90,7 @@ public class AuthenticationRestController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
 
+	@ApiOperation(value = "Refreshes Jwt token", response = JwtAuthenticationResponse.class )
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String authToken = request.getHeader(tokenHeader);

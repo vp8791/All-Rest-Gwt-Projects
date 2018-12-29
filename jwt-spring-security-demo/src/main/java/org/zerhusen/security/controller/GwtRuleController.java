@@ -14,7 +14,11 @@ import org.zerhusen.security.repository.UserRulesRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value="Aml User Rules", description="User Rules")
 @RequestMapping("protectedrules")
 public class GwtRuleController {
 	
@@ -27,6 +31,7 @@ public class GwtRuleController {
      * 'ROLE_' prefix on all role names. So 'ADMIN' here is actually stored as 'ROLE_ADMIN' in database!
      **/
     @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "Aml User Rules List(USER_RULE table)", response = String.class )
     @PreAuthorize("hasRole('ROLE_RULES')")
     public ResponseEntity<?> getProtectedGreeting() {
     	List<UserRule> allUserRules = userRulesRepository.findAll();

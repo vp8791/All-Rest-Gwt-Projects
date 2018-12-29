@@ -17,7 +17,11 @@ import org.zerhusen.security.repository.alerts.DepositsAlertRepository;
 import org.zerhusen.security.repository.alerts.EbankV5AlertRepository;
 import org.zerhusen.security.repository.alerts.OrdersAlertRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value="Aml Alerts", description="Aml Alerts of Cards/Ebanking/Deposits and Orders")
 @RequestMapping("alerts")
 public class GwtAlertsController {
 	
@@ -45,11 +49,13 @@ public class GwtAlertsController {
 	
 	@GetMapping("/protectedebankingalerts")
     @PreAuthorize("hasRole('ROLE_ALERTS')")
-    public ResponseEntity<?> getEbankingAlerts() {
+	@ApiOperation(value = "List of Aml Ebanking Alerts(EBANK_V5_ALERTS table)", response = List.class )
+	public ResponseEntity<?> getEbankingAlerts() {
 		List<EbankV5Alert> allEbankingAlerts = ebankV5AlertRepository.findAll();	
     	 return ResponseEntity.ok(allEbankingAlerts);
     }
 	
+	@ApiOperation(value = "List of Aml Card Alerts(TxnAlert table)", response = List.class )
 	@GetMapping("/protectedcardalerts")
     @PreAuthorize("hasRole('ROLE_ALERTS')")
     public ResponseEntity<?> getCardAlerts() {
@@ -57,6 +63,7 @@ public class GwtAlertsController {
     	 return ResponseEntity.ok(allCardAlerts);
     }
 	
+	@ApiOperation(value = "List of Aml Deposit Alerts (DEPOSIT_ENTITY_SCORES table)", response = List.class )
 	@GetMapping("/protecteddepositalerts")
     @PreAuthorize("hasRole('ROLE_ALERTS')")
     public ResponseEntity<?> getDepositAlerts() {
@@ -64,6 +71,7 @@ public class GwtAlertsController {
     	 return ResponseEntity.ok(findAll);
     }
 
+	@ApiOperation(value = "List of Aml Order Alerts (ORDGCS_ORDERS table)", response = List.class )
 	@GetMapping("/protectedorderalerts")
     @PreAuthorize("hasRole('ROLE_ALERTS')")
     public ResponseEntity<?> getOrderAlerts() {
