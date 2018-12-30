@@ -39,7 +39,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(value="Aml Authentication", description="Authenticates user and issues a Jwt token after verifying user credentials")
-public class AuthenticationRestController {
+public class AuthenticationController {
 
     @Value("${jwt.header}")
     private String tokenHeader;

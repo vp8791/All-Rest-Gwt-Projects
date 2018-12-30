@@ -147,38 +147,6 @@ $(function () {
 
     $("#logoutButton").click(doLogout);
 
-    $("#exampleServiceBtn").click(function () {
-        $.ajax({
-            url: "/persons",
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            headers: createAuthorizationTokenHeader(),
-            success: function (data, textStatus, jqXHR) {
-                showResponse(jqXHR.status, JSON.stringify(data));
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                showResponse(jqXHR.status, errorThrown);
-            }
-        });
-    });
-
-    $("#adminServiceBtn").click(function () {
-        $.ajax({
-            url: "/protected",
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            headers: createAuthorizationTokenHeader(),
-            success: function (data, textStatus, jqXHR) {
-                showResponse(jqXHR.status, data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                showResponse(jqXHR.status, errorThrown);
-            }
-        });
-    });
-    
-    
     $("#ebankingAlertsServiceBtn").click(function () {
         $.ajax({
             url: "/alerts/protectedebankingalerts",
@@ -256,36 +224,7 @@ $(function () {
             }
         });
     });
-
-    $("#hieraricalServiceBtn").click(function () {
-        $.ajax({
-            url: "/protectedhieraicahalmanagement",
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            headers: createAuthorizationTokenHeader(),
-            success: function (data, textStatus, jqXHR) {
-                showResponse(jqXHR.status, data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                showResponse(jqXHR.status, errorThrown);
-            }
-        });
-    });
     
-    $("#cppServiceBtn").click(function () {
-        $.ajax({
-            url: "/protectedcpp",
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            headers: createAuthorizationTokenHeader(),
-            success: function (data, textStatus, jqXHR) {
-                showResponse(jqXHR.status, data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                showResponse(jqXHR.status, errorThrown);
-            }
-        });
-    });
     
     $("#configurationServiceBtn").click(function () {
         $.ajax({
@@ -332,9 +271,9 @@ $(function () {
         });
     });
     
-    $("#dashboardServiceBtn").click(function () {
+    $("#gridServiceBtn").click(function () {
         $.ajax({
-            url: "/protecteddashboard",
+            url: "/protectedgrid",
             type: "GET",
             contentType: "application/json; charset=utf-8",
             headers: createAuthorizationTokenHeader(),
