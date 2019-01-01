@@ -16,9 +16,10 @@ import org.zerhusen.security.JwtUser;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@Api(value = "Jwt Tokens", description = "Jwt Tokens")
+@ApiIgnore
 public class UserRestController {
 
     @Value("${jwt.header}")
