@@ -36,9 +36,10 @@ import org.zerhusen.security.service.JwtAuthenticationResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@Api(value="Aml Authentication", description="Authenticates user and issues a Jwt token after verifying user credentials")
+@ApiIgnore
 public class AuthenticationController {
 
     @Value("${jwt.header}")
