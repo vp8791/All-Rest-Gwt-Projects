@@ -97,13 +97,13 @@ public class AllResourcesController {
 
 	@GetMapping("/alerts/protectedebankingalerts")
 	@PreAuthorize("hasRole('ROLE_ALERTS')")
-	@ApiOperation(value = "List of Aml Ebanking Alerts(EBANK_V5_ALERTS table)", response = List.class)
+	@ApiOperation(value = "List of Aml Ebanking Alerts(EBANK_V5_ALERTS table). Can be Accessed by user with ROLE_ALERTS ROLE", response = List.class)
 	public ResponseEntity<?> getEbankingAlerts() {
 		List<EbankV5Alert> allEbankingAlerts = ebankV5AlertRepository.findAll();
 		return ResponseEntity.ok(allEbankingAlerts);
 	}
 
-	@ApiOperation(value = "List of Aml Card Alerts(TxnAlert table)", response = List.class)
+	@ApiOperation(value = "List of Aml Card Alerts(TxnAlert table). Can be Accessed by user with ROLE_ALERTS ROLE", response = List.class)
 	@GetMapping("/alerts/protectedcardalerts")
 	@PreAuthorize("hasRole('ROLE_ALERTS')")
 	public ResponseEntity<?> getCardAlerts() {
@@ -111,7 +111,7 @@ public class AllResourcesController {
 		return ResponseEntity.ok(allCardAlerts);
 	}
 
-	@ApiOperation(value = "List of Aml Deposit Alerts (DEPOSIT_ENTITY_SCORES table)", response = List.class)
+	@ApiOperation(value = "List of Aml Deposit Alerts (DEPOSIT_ENTITY_SCORES table). Can be Accessed by user with ROLE_ALERTS ROLE", response = List.class)
 	@GetMapping("/alerts/protecteddepositalerts")
 	@PreAuthorize("hasRole('ROLE_ALERTS')")
 	public ResponseEntity<?> getDepositAlerts() {
@@ -119,7 +119,7 @@ public class AllResourcesController {
 		return ResponseEntity.ok(findAll);
 	}
 
-	@ApiOperation(value = "List of Aml Order Alerts (ORDGCS_ORDERS table)", response = List.class)
+	@ApiOperation(value = "List of Aml Order Alerts (ORDGCS_ORDERS table). Can be Accessed by user with ROLE_ALERTS ROLE", response = List.class)
 	@GetMapping("/alerts/protectedorderalerts")
 	@PreAuthorize("hasRole('ROLE_ALERTS')")
 	public ResponseEntity<?> getOrderAlerts() {
@@ -127,14 +127,14 @@ public class AllResourcesController {
 		return ResponseEntity.ok(orderAlerts);
 	}
 
-	@ApiOperation(value = "List of Card Transactions(TxnCardTransaction table)", response = TxnCardTransaction.class)
+	@ApiOperation(value = "List of Card Transactions(TxnCardTransaction table). Can be Accessed by user with ROLE_CARD_TRANSACTIONS ROLE", response = TxnCardTransaction.class)
 	@GetMapping("/protectedcardtransactions")
 	@PreAuthorize("hasRole('ROLE_CARD_TRANSACTIONS')")
 	public ResponseEntity<?> getCardGreeting() {
 		return ResponseEntity.ok(cardTransactionsRepository.findAll());
 	}
 
-	@ApiOperation(value = "Aml configuration settings (ConfigurationParameter table)", response = String.class)
+	@ApiOperation(value = "Aml configuration settings (ConfigurationParameter table). Can be Accessed by user with ROLE_CONFIGURATION ROLE", response = String.class)
 	@GetMapping("/protectedconfiguration")
 	@PreAuthorize("hasRole('ROLE_CONFIGURATION')")
 	public ResponseEntity<?> getConfigurationGreeting() {
@@ -143,7 +143,7 @@ public class AllResourcesController {
 	}
 
 	@GetMapping("/protectedgrid")
-	@ApiOperation(value = "Aml Grid settings (GridProperty table)", response = String.class)
+	@ApiOperation(value = "Aml Grid settings (GridProperty table). Can be Accessed by user with ROLE_GRID ROLE", response = String.class)
 	@PreAuthorize("hasRole('ROLE_GRID')")
 	public ResponseEntity<?> getGridSettings() {
 		List<GridProperty> findAll = gridRepository.findAll();
@@ -151,7 +151,7 @@ public class AllResourcesController {
 	}
 	
 	@GetMapping("/protectedrules")
-    @ApiOperation(value = "Aml User Rules List(USER_RULE table)", response = String.class )
+    @ApiOperation(value = "Aml User Rules List(USER_RULE table). Can be Accessed by user with ROLE_RULES ROLE", response = String.class )
     @PreAuthorize("hasRole('ROLE_RULES')")
     public ResponseEntity<?> getRules() {
     	List<UserRule> allUserRules = userRulesRepository.findAll();
@@ -160,7 +160,7 @@ public class AllResourcesController {
     }
 	
 	@GetMapping("/protectedusers")
-	  @ApiOperation(value = "Aml User Rules List(USERS/AUTHORITY/USER_AUTHORITY tables)", response = String.class )
+	  @ApiOperation(value = "Aml User Rules List(USERS/AUTHORITY/USER_AUTHORITY tables). Can be Accessed by user with ROLE_USERS ROLE", response = String.class )
 	@PreAuthorize("hasRole('ROLE_USERS')")
 	public ResponseEntity<?> getUsers() {
 		List<HibUser> allHibUsers = hibuserRepository.findAll();
